@@ -14,7 +14,7 @@ namespace {
 const QString default_sample_text = QString::fromUtf8(preview_text);
 }  // namespace
 
-FontPreviewWidget::FontPreviewWidget(QWidget *parent)
+FontPreviewWidget::FontPreviewWidget(QWidget* parent)
     : QWidget{parent}
     , _preview_text(QString::fromUtf8(preview_text))
 {
@@ -25,7 +25,7 @@ QString FontPreviewWidget::sampleText() const
     return _preview_text;
 }
 
-void FontPreviewWidget::setSampleText(const QString &text)
+void FontPreviewWidget::setSampleText(const QString& text)
 {
     if (text.isEmpty())
         _preview_text = default_sample_text;
@@ -34,7 +34,7 @@ void FontPreviewWidget::setSampleText(const QString &text)
     update();
 }
 
-void FontPreviewWidget::paintEvent(QPaintEvent *event)
+void FontPreviewWidget::paintEvent(QPaintEvent* event)
 {
     QPainter p(this);
     p.drawText(rect(), _preview_text, {Qt::AlignCenter});

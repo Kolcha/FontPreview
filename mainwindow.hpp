@@ -13,19 +13,19 @@ class MainWindow : public QWidget
     Q_OBJECT
 
 public:
-    MainWindow(const QString &filename, QWidget *parent = nullptr);
+    MainWindow(const QString& filename, QWidget* parent = nullptr);
     ~MainWindow();
 
 private:
     void updatePreview();
 
 private slots:
-    void on_fontsBox_currentTextChanged(const QString &arg1);
+    void on_fontsBox_currentTextChanged(const QString& arg1);
     void on_systemBox_activated(int index);
-    void on_styleBox_currentTextChanged(const QString &arg1);
-    void on_sizeBox_currentTextChanged(const QString &arg1);
+    void on_styleBox_currentTextChanged(const QString& arg1);
+    void on_sizeBox_currentTextChanged(const QString& arg1);
 
 private:
-    Ui::MainWindow *ui;
+    Ui::MainWindow* ui;
     QFontDatabase _fdb;
 };

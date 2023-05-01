@@ -33,7 +33,7 @@ QStringList common_styles{QLatin1String("Regular"), QLatin1String("Normal")};
 
 }  // namespace
 
-MainWindow::MainWindow(const QString &filename, QWidget *parent)
+MainWindow::MainWindow(const QString& filename, QWidget* parent)
     : QWidget(parent)
     , ui(new Ui::MainWindow)
 {
@@ -63,7 +63,7 @@ void MainWindow::updatePreview()
     ui->fontPreview->setFont(_fdb.font(family, fstyle, fsize));
 }
 
-void MainWindow::on_fontsBox_currentTextChanged(const QString &arg1)
+void MainWindow::on_fontsBox_currentTextChanged(const QString& arg1)
 {
     ui->systemBox->clear();
     auto any_name = QFontDatabase::writingSystemName(QFontDatabase::Any);
@@ -89,7 +89,7 @@ void MainWindow::on_systemBox_activated(int index)
     ui->fontPreview->setSampleText(sample);
 }
 
-void MainWindow::on_styleBox_currentTextChanged(const QString &arg1)
+void MainWindow::on_styleBox_currentTextChanged(const QString& arg1)
 {
     const QSignalBlocker _(ui->sizeBox);
 
@@ -111,7 +111,7 @@ void MainWindow::on_styleBox_currentTextChanged(const QString &arg1)
     on_sizeBox_currentTextChanged(ui->sizeBox->currentText());
 }
 
-void MainWindow::on_sizeBox_currentTextChanged(const QString &arg1)
+void MainWindow::on_sizeBox_currentTextChanged(const QString& arg1)
 {
     Q_UNUSED(arg1);
     updatePreview();

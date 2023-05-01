@@ -1,0 +1,13 @@
+style=linux
+indent=spaces=4
+attach-namespaces
+attach-extern-c
+indent-switches
+indent-col1-comments
+align-pointer=type
+align-reference=type
+keep-one-line-blocks
+keep-one-line-statements
+max-code-length=150
+break-after-logical
+suffix=none

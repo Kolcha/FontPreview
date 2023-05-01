@@ -21,6 +21,7 @@ private:
 
 private slots:
     void on_fontsBox_currentTextChanged(const QString &arg1);
+    void on_systemBox_activated(int index);
     void on_styleBox_currentTextChanged(const QString &arg1);
     void on_sizeBox_currentTextChanged(const QString &arg1);
 

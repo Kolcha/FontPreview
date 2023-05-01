@@ -10,7 +10,7 @@
     <height>600</height>
    </rect>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
+  <layout class="QGridLayout" name="gridLayout" columnstretch="2,1,1,0">
    <item row="0" column="0">
     <widget class="QComboBox" name="fontsBox">
      <property name="sizePolicy">
@@ -22,6 +22,16 @@
     </widget>
    </item>
    <item row="0" column="1">
+    <widget class="QComboBox" name="systemBox">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="2">
     <widget class="QComboBox" name="styleBox">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -31,10 +41,7 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="0" colspan="4">
-    <widget class="FontPreviewWidget" name="fontPreview" native="true"/>
-   </item>
-   <item row="0" column="2">
+   <item row="0" column="3">
     <widget class="QComboBox" name="sizeBox">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
@@ -46,6 +53,9 @@
       <bool>true</bool>
      </property>
     </widget>
+   </item>
+   <item row="1" column="0" colspan="4">
+    <widget class="FontPreviewWidget" name="fontPreview" native="true"/>
    </item>
   </layout>
  </widget>

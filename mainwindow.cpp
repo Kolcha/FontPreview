@@ -65,11 +65,28 @@ void MainWindow::updatePreview()
 
 void MainWindow::on_fontsBox_currentTextChanged(const QString &arg1)
 {
+    ui->systemBox->clear();
+    auto any_name = QFontDatabase::writingSystemName(QFontDatabase::Any);
+    ui->systemBox->addItem(any_name, QFontDatabase::Any);
+    auto wss = _fdb.writingSystems(arg1);
+    for (const auto& ws : std::as_const(wss))
+        ui->systemBox->addItem(QFontDatabase::writingSystemName(ws), ws);
+    on_systemBox_activated(0);
+
     const QSignalBlocker _(ui->styleBox);
     ui->styleBox->clear();
     ui->styleBox->addItems(_fdb.styles(arg1));
     ComboUtils::setAnyOf(ui->styleBox, common_styles);
     on_styleBox_currentTextChanged(ui->styleBox->currentText());
+}
+
+void MainWindow::on_systemBox_activated(int index)
+{
+    auto ws = ui->systemBox->itemData(index).value<QFontDatabase::WritingSystem>();
+    QString sample;
+    if (ws != QFontDatabase::Any)
+        sample = QFontDatabase::writingSystemSample(ws);
+    ui->fontPreview->setSampleText(sample);
 }
 
 void MainWindow::on_styleBox_currentTextChanged(const QString &arg1)

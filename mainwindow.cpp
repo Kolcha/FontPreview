@@ -2,6 +2,36 @@
 #include "ui_mainwindow.h"
 
 #include <QIntValidator>
+#include <QSignalBlocker>
+
+namespace ComboUtils {
+
+int findAnyOf(const QComboBox* box, const QStringList& l)
+{
+    int idx = -1;
+    for (const auto& k : l) {
+        idx = box->findText(k);
+        if (idx != -1)
+            break;
+    }
+    return idx;
+}
+
+int setAnyOf(QComboBox* box, const QStringList& l)
+{
+    int idx = findAnyOf(box, l);
+    if (idx != -1)
+        box->setCurrentIndex(idx);
+    return idx;
+}
+
+}  // namespace ComboUtils
+
+namespace {
+
+QStringList common_styles{QLatin1String("Regular"), QLatin1String("Normal")};
+
+}  // namespace
 
 MainWindow::MainWindow(QWidget *parent)
     : QWidget(parent)
@@ -11,14 +41,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->fontsBox->addItems(_fdb.families());
     ui->fontsBox->setCurrentText(font().family());
-    ui->styleBox->addItems(_fdb.styles(ui->fontsBox->currentText()));
-    ui->styleBox->setCurrentText(font().styleName());
-
     ui->sizeBox->setValidator(new QIntValidator(4, 256, this));
-    const auto std_sizes = QFontDatabase::standardSizes();
-    for (const auto& s : std_sizes)
-        ui->sizeBox->addItem(QString::number(s));
-    ui->sizeBox->setCurrentText(QString::number(font().pointSize()));
 }
 
 MainWindow::~MainWindow()
@@ -36,16 +59,37 @@ void MainWindow::updatePreview()
 
 void MainWindow::on_fontsBox_currentTextChanged(const QString &arg1)
 {
+    const QSignalBlocker _(ui->styleBox);
     ui->styleBox->clear();
     ui->styleBox->addItems(_fdb.styles(arg1));
+    ComboUtils::setAnyOf(ui->styleBox, common_styles);
+    on_styleBox_currentTextChanged(ui->styleBox->currentText());
 }
 
 void MainWindow::on_styleBox_currentTextChanged(const QString &arg1)
 {
-    updatePreview();
+    const QSignalBlocker _(ui->sizeBox);
+
+    auto best_sizes = _fdb.smoothSizes(ui->fontsBox->currentText(), arg1);
+    if (best_sizes.isEmpty())
+        best_sizes = _fdb.pointSizes(ui->fontsBox->currentText(), arg1);
+    if (best_sizes.isEmpty())
+        best_sizes = QFontDatabase::standardSizes();
+
+    auto curr_size = ui->sizeBox->currentText();
+    if (curr_size.isEmpty())
+        curr_size = QString::number(font().pointSize());
+
+    ui->sizeBox->clear();
+    for (const auto& s : std::as_const(best_sizes))
+        ui->sizeBox->addItem(QString::number(s));
+    ComboUtils::setAnyOf(ui->sizeBox, {curr_size});
+
+    on_sizeBox_currentTextChanged(ui->sizeBox->currentText());
 }
 
 void MainWindow::on_sizeBox_currentTextChanged(const QString &arg1)
 {
+    Q_UNUSED(arg1);
     updatePreview();
 }

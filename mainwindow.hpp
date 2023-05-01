@@ -13,7 +13,7 @@ class MainWindow : public QWidget
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow(const QString &filename, QWidget *parent = nullptr);
     ~MainWindow();
 
 private:

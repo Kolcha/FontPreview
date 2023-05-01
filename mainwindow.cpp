@@ -33,14 +33,20 @@ QStringList common_styles{QLatin1String("Regular"), QLatin1String("Normal")};
 
 }  // namespace
 
-MainWindow::MainWindow(QWidget *parent)
+MainWindow::MainWindow(const QString &filename, QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
-    ui->fontsBox->addItems(_fdb.families());
-    ui->fontsBox->setCurrentText(font().family());
+    if (filename.isEmpty()) {
+        ui->fontsBox->addItems(_fdb.families());
+        ui->fontsBox->setCurrentText(font().family());
+    } else {
+        if (int id = QFontDatabase::addApplicationFont(filename); id != -1)
+            ui->fontsBox->addItems(QFontDatabase::applicationFontFamilies(id));
+        setWindowFilePath(filename);
+    }
     ui->sizeBox->setValidator(new QIntValidator(4, 256, this));
 }
 

@@ -40,8 +40,10 @@ MainWindow::MainWindow(const QString& filename, QWidget* parent)
     ui->setupUi(this);
 
     if (filename.isEmpty()) {
+        const QSignalBlocker _(ui->fontsBox);
         ui->fontsBox->addItems(_fdb.families());
         ui->fontsBox->setCurrentText(font().family());
+        on_fontsBox_currentTextChanged(ui->fontsBox->currentText());
     } else {
         if (int id = QFontDatabase::addApplicationFont(filename); id != -1)
             ui->fontsBox->addItems(QFontDatabase::applicationFontFamilies(id));
